@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Misión ASD: Edición Parejas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+            --card-bg: rgba(30, 41, 59, 0.75);
+            --primary: #8b5cf6;
+            --primary-hover: #7c3aed;
+            --accent: #f43f5e;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #c084fc, #f43f5e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* Pantalla de Registro */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #cbd5e1;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-main);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+        }
+
+        /* Botones */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+            margin-top: 25px;
+        }
+
+        .btn:hover {
+            opacity: 0.95;
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* Pantalla de Juego */
+        .game-screen {
+            display: none;
+        }
+
+        .progress-indicator {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .agents-badge {
+            background: rgba(139, 92, 246, 0.15);
+            padding: 6px 14px;
+            border-radius: 20px;
+            color: #c084fc;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .question-card {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 25px;
+            min-height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .question-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            line-height: 1.6;
+            color: #f1f5f9;
+        }
+
+        /* Pantalla Final */
+        .end-screen {
+            display: none;
+            text-align: center;
+        }
+
+        .end-screen h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #c084fc;
+        }
+
+        .end-screen p {
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- SECCIÓN 1: REGISTRO DE AGENTES -->
+        <div id="setupScreen" class="setup-screen">
+            <div class="header">
+                <h1>Misión ASD</h1>
+                <p>Edición Parejas: Conexión Profunda</p>
+            </div>
+            <div class="form-group">
+                <label for="agent1">Nombre del Agente 1:</label>
+                <input type="text" id="agent1" placeholder="Ej. Alex" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="agent2">Nombre del Agente 2:</label>
+                <input type="text" id="agent2" placeholder="Ej. Paola" autocomplete="off">
+            </div>
+            <button class="btn" onclick="startMission()">Iniciar Misión</button>
+        </div>
+
+        <!-- SECCIÓN 2: INTERFAZ DEL JUEGO -->
+        <div id="gameScreen" class="game-screen">
+            <div class="progress-indicator">
+                <span id="counter">Pregunta 1 de 10</span>
+                <span class="agents-badge" id="currentPair">Agentes</span>
+            </div>
+            <div class="question-card">
+                <div class="question-text" id="questionText">Cargando pregunta...</div>
+            </div>
+            <button class="btn" onclick="nextQuestion()" id="nextBtn">Siguiente Pregunta</button>
+        </div>
+
+        <!-- SECCIÓN 3: PANTALLA FINAL -->
+        <div id="endScreen" class="end-screen">
+            <div class="header">
+                <h1>¡Misión Cumplida!</h1>
+            </div>
+            <h2>Fase de Diálogo Superada</h2>
+            <p>Han completado con éxito las 10 preguntas de alta profundidad. Esperamos que esta misión haya abierto espacio para nuevas perspectivas y una conexión mucho más sincera.</p>
+            <button class="btn" onclick="restartMission()">Reiniciar Misión</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            "¿Cuál ha sido el momento o experiencia más difícil de tu vida hasta ahora, y qué versión de ti mismo/a nació a partir de eso?",
+            "Si pudieras revivir un solo día exactamente igual a como pasó, sin cambiar nada, ¿cuál elegirías y por qué?",
+            "¿Qué aspecto de tu personalidad te costó más aceptar o integrar, pero que hoy consideras una de tus mayores fortalezas?",
+            "¿Cuál es esa meta o sueño personal que casi nunca le cuentas a nadie por miedo a que suene demasiado grande o imposible?",
+            "Si tora vez pudieras elegir un solo lugar en el mundo (real o imaginario) donde sientas absoluta paz y seguridad, ¿cómo es y qué hay ahí?",
+            "¿Cuál es el límite o principio ético que jamás estarías dispuesto/a a negociar, sin importar quién esté enfrente?",
+            "Si pudieras viajar al pasado solo para tener una última conversación con alguien, ¿a quién elegirías y qué le dirías?",
+            "¿Cuál es tu mayor inseguridad actual y qué haces (o intentas hacer) en el día a día para lidiar con ella?",
+            "Si tora vez tuvieras que dejar una sola lección o enseñanza marcada a fuego en las personas que te rodean, ¿cuál te gustaría que fuera?",
+            "Si supieras con 100% de seguridad que no vas a fracasar en nada, ¿qué proyecto, viaje o cambio radical harías mañana mismo en tu vida?"
+        ];
+
+        let currentQuestionIndex = 0;
+        let player1 = "";
+        let player2 = "";
+
+        function startMission() {
+            player1 = document.getElementById('agent1').value.trim();
+            player2 = document.getElementById('agent2').value.trim();
+
+            if (!player1 || !player2) {
+                alert("Por favor, ingresa los nombres de ambos agentes para continuar.");
+                return;
+            }
+
+            document.getElementById('setupScreen').style.display = 'none';
+            document.getElementById('gameScreen').style.display = 'block';
+            
+            document.getElementById('currentPair').innerText = `${player1} & ${player2}`;
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            document.getElementById('counter').innerText = `Pregunta ${currentQuestionIndex + 1} de ${questions.length}`;
+            document.getElementById('questionText').innerText = questions[currentQuestionIndex];
+            
+            if (currentQuestionIndex === questions.length - 1) {
+                document.getElementById('nextBtn').innerText = "Finalizar Misión";
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                document.getElementById('gameScreen').style.display = 'none';
+                document.getElementById('endScreen').style.display = 'block';
+            }
+        }
+
+        function restartMission() {
+            currentQuestionIndex = 0;
+            document.getElementById('agent1').value = "";
+            document.getElementById('agent2').value = "";
+            document.getElementById('endScreen').style.display = 'none';
+            document.getElementById('setupScreen').style.display = 'block';
+            document.getElementById('nextBtn').innerText = "Siguiente Pregunta";
+        }
+    </script>
+</body>
+</html>
